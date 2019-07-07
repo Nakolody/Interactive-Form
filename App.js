@@ -11,7 +11,7 @@ $('#title').on('change', function(e){
     }
 });
 //Displays the appropriate T-shirt colors via drop box
-$('#color').hide();
+$('#colors-js-puns').hide();
 
 $('#design').on('change', function(e){
     $('#color').show();
@@ -20,6 +20,7 @@ $('#design').on('change', function(e){
             $('#color option').eq(js).hide();
         }
         for (let m =3; m<=6; m+=1){
+            $('#colors-js-puns').show();
             $('#color option').eq(m).show();
         }
         $('#color option').eq(3).attr('selected',true);
@@ -29,13 +30,14 @@ $('#design').on('change', function(e){
             $('#color option').eq(hjs).hide();
         }
         for (let n = 0; n <=2; n+=1){
+            $('#colors-js-puns').show();
             $('#color option').eq(n).show();
         }
             $('#color option').eq(0).attr('selected',true);
         }
     
     if($('#design option:selected').text() === 'Select Theme'){
-        $('#color').hide();
+        $('#colors-js-puns').hide();
     }
 });
 //Register for activities -
