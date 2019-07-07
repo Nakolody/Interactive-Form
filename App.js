@@ -11,21 +11,31 @@ $('#title').on('change', function(e){
     }
 });
 //Displays the appropriate T-shirt colors via drop box
+$('#color').hide();
+
 $('#design').on('change', function(e){
-    for (let i = 0; i <= $('#color option').length; i +=1){
-        $('#color option').eq(i).prop('disabled',false);
-    }
+    $('#color').show();
     if($('#design option:selected').val() === 'js puns'){
         for (let js = 0; js <=2; js +=1){
-            $('#color option').eq(js).prop('disabled',true);
-            $('#color option').eq(3).attr('selected',true);
+            $('#color option').eq(js).hide();
         }
+        for (let m =3; m<=6; m+=1){
+            $('#color option').eq(m).show();
+        }
+        $('#color option').eq(3).attr('selected',true);
     }
     if($('#design option:selected').val() === 'heart js'){
         for (let hjs =3; hjs <=6; hjs +=1){
-            $('#color option').eq(hjs).prop('disabled',true);
+            $('#color option').eq(hjs).hide();
+        }
+        for (let n = 0; n <=2; n+=1){
+            $('#color option').eq(n).show();
+        }
             $('#color option').eq(0).attr('selected',true);
         }
+    
+    if($('#design option:selected').text() === 'Select Theme'){
+        $('#color').hide();
     }
 });
 //Register for activities -
