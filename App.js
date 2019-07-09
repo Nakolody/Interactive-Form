@@ -40,42 +40,35 @@ $('#design').on('change', function(e){
         $('#colors-js-puns').hide();
     }
 });
-//Register for activities -
+const div = document.createElement('div');
+$('.activities input').append(div);
+let totalCost = 0;
 
-const pmEvents = [$('.activites input:checkbox').eq(2),$('.activities input:checkbox').eq(4)];
-const amEvents = [$('.activites input:checkbox').eq(1),$('.activities input:checkbox').eq(3)];
-let totalAmount = 0;
-$('.activities input:checkbox').on('change',function(e){
- //To inactivate conflicting time slots for classes and calculate costs
-    if($('.activities input:checkbox').eq(1).prop('checked')){
-        $('.activities input:checkbox').eq(3).prop('disabled',true);
-    }else if ($('.activities input:checkbox').eq(1).prop('checked',false)){
-        $('.activities input:checkbox').eq(3).prop('disabled',false);
+
+$('.activities').on('change',function(e){
+    let checked = $(event.target);
+    let checkedText = checked.parent().text();
+    let index = checkedText.indexOf("$");
+    let price = checkedText.slice((index+1),index+4);
+    let cost = parseInt(price);
+    if($(event.target).prop('checked')){
+        totalCost += cost;
+    }else {
+        totalCost -= cost;
     }
-    if($('.activities input:checkbox').eq(3).prop('checked')){
-        $('.activities input:checkbox').eq(1).prop('disabled',true);
-    }else if ($('.activities input:checkbox').eq(3).prop('checked',false)){
-        $('.activities input:checkbox').eq(1).prop('disabled',false);
+    let indexDate = checkedText.indexOf('—');
+    let indexTime = checkedText.indexOf(',');
+    let dateTime = checkedText.slice(indexDate,indexTime);
+    for(let i = 0; i<= $('.activities input').length; i+=1){
+        let compareCheck = $('.activities input').eq(i);
+        let compareText = compareCheck.parent().text();
+        let compareDate = compareText.indexOf('—');
+        let compareTime = compareText.indexOf(',');
+        let compareDateTime = compareText.slice(compareDate,compareTime);
+
+       if(($(event.target) !== $('.activities input').eq(i)) && (compareDateTime == dateTime)){
+            $('.activities input').eq(i).prop('disabled',true);
+       }
+       
     }
-    if($('.activities input:checkbox').eq(2).prop('checked')){
-        $('.activities input:checkbox').eq(4).prop('disabled',true);
-    }else if ($('.activities input:checkbox').eq(2).prop('checked',false)){
-        $('.activities input:checkbox').eq(4).prop('disabled',false);
-    }
-    if($('.activities input:checkbox').eq(4).prop('checked')){
-        $('.activities input:checkbox').eq(2).prop('disabled',true);
-    }else if ($('.activities input:checkbox').eq(4).prop('checked',false)){
-        $('.activities input:checkbox').eq(2).prop('disabled',false);
-    }
-    calculateCost();
-})
-function calculateCost(){
-        //To calculate running Total for classes:
-        if($('.activities input:checkbox').eq(0).prop('checked')){
-            totalAmount +=200;
-        }else if ($('.activities input:checkbox').eq(0).prop('checked',false)){
-            totalAmount -=200;
-        }
-    
-    
-}
+});
