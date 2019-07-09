@@ -49,13 +49,14 @@ $('.activities').on('change',function(e){
     let checked = $(event.target);
     let checkedText = checked.parent().text();
     let index = checkedText.indexOf("$");
-    let price = checkedText.slice((index+1),index+4);
+    let price = checkedText.slice(index+1);
     let cost = parseInt(price);
     if($(event.target).prop('checked')){
         totalCost += cost;
     }else {
         totalCost -= cost;
     }
+    console.log(totalCost);
     let indexDate = checkedText.indexOf('—');
     let indexTime = checkedText.indexOf(',');
     let dateTime = checkedText.slice(indexDate,indexTime);
@@ -66,9 +67,14 @@ $('.activities').on('change',function(e){
         let compareTime = compareText.indexOf(',');
         let compareDateTime = compareText.slice(compareDate,compareTime);
 
-       if(($(event.target) !== $('.activities input').eq(i)) && (compareDateTime == dateTime)){
-            $('.activities input').eq(i).prop('disabled',true);
+        if(($(event.target) != $('.activities input').eq(i)) && (compareDateTime == dateTime)){
+            if($('.activities input').eq(i).prop('disabled',true)){
+                $('.activities input').eq(i).prop('disabled',false);
+            } else {
+                $('.activities input').eq(i).prop('disabled',true);
+            }
        }
+       
        
     }
 });
