@@ -123,7 +123,7 @@ $('#nameError').hide();
 
 function validName (){
     let userName = $('#name').val();
-    let regex = /^[A-Za-z]+$/;
+    let regex =/^[a-z ,.'-]+$/i;
 
     //Tests name against regex and if valid returns true
     if(regex.test(userName)){
