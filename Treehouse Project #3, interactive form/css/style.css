@@ -149,6 +149,22 @@ option {
 .credit-card {
 	margin-top: 1.25em;
 }
+.error {
+	background-color: #ffe6e6;
+	border: red;
+}
+.errorElement {
+	margin: 10px 0px;
+	padding: 12px;
+	content: 'f071';
+	border: 1px solid;
+	border-radius: .5em;
+	text-align: center;
+	font-display:bold italic;
+	color:  #FF0000;
+	background-color:rgb(228, 189, 189);
+	font-family: 'Nunito', sans-serif;
+}
 
 /* ================================= 
   Helper Classes
