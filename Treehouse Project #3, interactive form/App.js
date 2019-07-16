@@ -90,10 +90,10 @@ select_method.hide();
 const creditCard =$('#payment option').eq(1).prop('selected',true);
 const creditCardDiv = $('#credit-card');
 const paypal = $('#payment option').eq(2);
-const paypalDiv = $('fieldset div').eq(14);
+const paypalDiv = $('fieldset div').eq(8);
 paypalDiv.hide();
 const bitcoin = $('#payment option').eq(3);
-const bitcoinDiv = $('fieldset div').eq(15);
+const bitcoinDiv = $('fieldset div').eq(9);
 bitcoinDiv.hide();
 $('#payment').on('change',function(e){
     if(creditCard.prop('selected')){
