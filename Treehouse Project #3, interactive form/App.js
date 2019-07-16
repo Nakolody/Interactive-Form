@@ -18,7 +18,7 @@ $('#colors-js-puns').hide();
 
 $('#design').on('change', function(e){
     $('#color').show();
-    if($('#design option:selected').val() === 'js puns'){
+    if($('#design option:selected').val() === 'heart js'){
         for (let js = 0; js <=2; js +=1){
             $('#color option').eq(js).hide();
         }
@@ -28,7 +28,7 @@ $('#design').on('change', function(e){
         }
         $('#color option').eq(3).attr('selected',true);
     }
-    if($('#design option:selected').val() === 'heart js'){
+    if($('#design option:selected').val() === 'js puns'){
         for (let hjs =3; hjs <=6; hjs +=1){
             $('#color option').eq(hjs).hide();
         }
@@ -89,10 +89,10 @@ const select_method = $('#payment option').eq(0);
 select_method.hide();
 const creditCard =$('#payment option').eq(1).prop('selected',true);
 const creditCardDiv = $('#credit-card');
-const paypal = $('#payment option').eq(2);
+const paypal = $('#payment option[value=paypal]');
 const paypalDiv = $('fieldset div').eq(8);
 paypalDiv.hide();
-const bitcoin = $('#payment option').eq(3);
+const bitcoin = $('#payment option[value=bitcoin]');
 const bitcoinDiv = $('fieldset div').eq(9);
 bitcoinDiv.hide();
 $('#payment').on('change',function(e){
@@ -139,7 +139,6 @@ function validName (){
 }
 //Creates element that will append to page for invalid emails.
 let mailMessage = document.createElement('h2');
-mailMessage.innerHTML = 'Please enter a valid email:';
 mailMessage.className = 'errorElement';
 mailMessage.setAttribute('id','mailMessage');
 $('#mail').before(mailMessage);
@@ -148,15 +147,30 @@ $('#mailMessage').hide();
 //Tests email for to make sure input is valid
 function validEmail () {
     let email = $('#mail').val();
-    let regex = /^[^@]+@[^@.]+\.[A-Za-z]+$/i;
+    let regex = /^[^@]+@/i;
+    let regex2 = /^[^@]+@[^@.]+\./i;
+    let regex3 = /^[^@]+@[^@.]+\.\w+/i;
     if(regex.test(email)){
-        $('#mailMessage').slideUp(1000);
-        $('#mail').removeClass('error');
-        return true;
+        if(regex2.test(email)){
+            $('#mail').removeClass('error');
+            if(regex3.test(email)){
+                $('#mailMessage').hide(2000);
+                $('#mail').removeClass('error');
+                return true;
+            }else {
+                mailMessage.innerHTML = '... stay on target';
+                $('#mailMessage').show(500);
+                $('#mail').addClass('error');
+            }
+        }else {
+            mailMessage.innerHTML = 'Almost there...';
+            $('#mailMessage').show(500);
+            $('#mail').addClass('error');
+        }
     } else {
         $('#mailMessage').show(1000);
         $('#mail').addClass('error');
-        return false;
+        mailMessage.innerHTML = 'Please enter a valid email:';
     }
 };
 
@@ -171,7 +185,7 @@ $('#activitiesMessage').hide();
 //Checks to see if valid information is placed in activities.
 function validActivities(){
 
-    if($('.activities :checked').length > 0){
+    if(totalCost > 0){
         $('#activitiesMessage').hide();
         $('.activities').removeClass('error');
         return true;
@@ -186,7 +200,7 @@ function validActivities(){
 let credit_cardMessage = document.createElement('h2');
 credit_cardMessage.className = 'errorElement';
 credit_cardMessage.setAttribute('id','credit_cardMessage');
-credit_cardMessage.innerHTML = "Please enter a valid credit card number";
+
 $('#cc-num').after(credit_cardMessage);
 $('#credit_cardMessage').hide();
 
@@ -197,8 +211,10 @@ function credit_cardvalid(){
     if(creditCard){
         if(regexForCreditCard.test(credit)){
             $('#credit_cardMessage').slideUp(1000);
+            $('#credit_cardMessage').removeClass('error');
             return true
-        }else {
+        } else{
+            credit_cardMessage.innerHTML = "Please enter a valid credit card number";
             $('#credit_cardMessage').show(1000);
             $('#cc-num').addClass('error');
             return false
@@ -273,28 +289,25 @@ function validatedFormCred () {
 
 //Tests to make sure form was filled out the correct way.
 $('form').submit(function(e){
-    e.preventDefault();
     validName();
     validEmail();
     validActivities();
     credit_cardvalid();
     zipcodeValid();
     cvvValid();
-    if($('#payment option').eq(1).prop('selcted')){
+    if($('#payment option').eq(1).prop('selected')){
         validatedFormCred();
         if(validatedFormCred()){
-            location.reload(true);
-            alert('Your submission has been accepted!');
+            return;
         }else {
-            alert("Opps! It looks like we are missing required information");
+            e.preventDefault();
         }
     }else {
         validatedFormNonCredit();
         if(validatedFormNonCredit()){
-            location.reload(true);
-            alert('Your submission has been accepted!');
+            return;
         }else {
-            alert("Opps! It looks like we are missing required information");
+            e.preventDefault();
         }
     }
 });
@@ -305,4 +318,8 @@ $('#mail').keyup(function(e){
 //Key Up handler for name.
 $('#name').keyup((e)=>{
     validName();
+})
+//Key Up handler for Credit Card
+$('#cc-num').keyup((e)=>{
+    credit_cardvalid();
 })
