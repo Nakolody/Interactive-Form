@@ -129,10 +129,12 @@ function validName (){
     if(regex.test(userName)){
         $('#nameError').slideUp();
         $('#name').removeClass('error');
+        $('#name').addClass('successEntry');
         //$('#name').val('');
         return true
     }else {
         $('#name').addClass('error');
+        $('#name').removeClass('successEntry');
         $('#nameError').show(1000);
         return false;
     }
@@ -150,28 +152,38 @@ function validEmail () {
     let regex = /^[^@]+@/i;
     let regex2 = /^[^@]+@[^@.]+\./i;
     let regex3 = /^[^@]+@[^@.]+\.\w+/i;
-    if(regex.test(email)){
-        if(regex2.test(email)){
-            $('#mail').removeClass('error');
-            if(regex3.test(email)){
-                $('#mailMessage').hide(2000);
+    if(email !== ''){
+        if(regex.test(email)){
+            if(regex2.test(email)){
                 $('#mail').removeClass('error');
-                return true;
+                if(regex3.test(email)){
+                    mailMessage.innerHTML = "Success!";
+                    $('#mailMessage').addClass('success');
+                    $('#mail').addClass('successEntry');
+                    $('#mailMessage').slideUp(2500);
+                    $('#mail').removeClass('error');
+                    return true;
+                }else {
+                    mailMessage.innerHTML = '... stay on target';
+                    $('#mailMessage').show(500);
+                    $('#mailMessage').removeClass('success');
+                    $('#mail').removeClass('successEntry');
+                    $('#mail').addClass('error');
+                }
             }else {
-                mailMessage.innerHTML = '... stay on target';
+                mailMessage.innerHTML = 'Almost there...';
                 $('#mailMessage').show(500);
                 $('#mail').addClass('error');
             }
-        }else {
-            mailMessage.innerHTML = 'Almost there...';
-            $('#mailMessage').show(500);
+        } else {
+            $('#mailMessage').show(1000);
             $('#mail').addClass('error');
+            mailMessage.innerHTML = 'Starting our run...';
         }
     } else {
+        mailMessage.innerHTML = "Please enter an email address";
         $('#mailMessage').show(1000);
-        $('#mail').addClass('error');
-        mailMessage.innerHTML = 'Please enter a valid email:';
-    }
+}
 };
 
 
