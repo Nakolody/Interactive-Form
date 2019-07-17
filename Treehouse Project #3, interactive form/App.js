@@ -155,10 +155,10 @@ function validEmail () {
             if(regex2.test(email)){
                 $('#mail').removeClass('error');
                 if(regex3.test(email)){
-                    mailMessage.innerHTML = "Success!";
+                    mailMessage.innerHTML = "Great shot kid! That was one in a million!";
                     $('#mailMessage').addClass('success');
                     $('#mail').addClass('successEntry');
-                    $('#mailMessage').slideUp(2500);
+                    $('#mailMessage').slideUp(3000);
                     $('#mail').removeClass('error');
                     return true;
                 }else {
